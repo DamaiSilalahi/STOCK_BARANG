@@ -1,7 +1,7 @@
 <?php
 //jika user belum login
 
-if(isset($_SESSION['loh'])){
+if(isset($_SESSION['log'])){
 
 }else{
     header('location:login.php');
