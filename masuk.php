@@ -65,52 +65,141 @@ require 'cek.php';
                                                 <th>Tanggal</th>
                                                 <th>Nama Barang</th>
                                                 <th>Jumlah</th>
-                                                <th>Stock</th>                                           
+                                                <th>keterangan</th>   
+                                                <th>Aksi</th>                                       
                                             </tr>
-                                        </thead>                   
+                                            </thead>                   
                                         <tbody>
-                                           
+
                                         <?php
                                             $ambilsemuadatastock = mysqli_query($conn,"select * from masuk m, stock s where s.idbarang = m.idbarang");
                                             while($data=mysqli_fetch_array($ambilsemuadatastock)){
+                                                $idb = $data['idbarang'];
+                                                $idm = $data['idmasuk'];
                                                 $tanggal = $data['tanggal'];
                                                 $namabarang = $data['namabarang'];
                                                 $qty = $data['qty'];
                                                 $keterangan = $data['keterangan'];
-
-                                            ?>
-
+                                            }
+                                        ?>
                                             <tr>
                                                 <td><?=$tanggal;?></td>
                                                 <td><?=$namabarang;?></td>
                                                 <td><?=$qty;?></td>
-                                                <td><?=$keterangan;?></td>                                             
+                                                <td><?=$keterangan;?></td>  
+                                                <td>
+                                                <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#edit<?=$idb;?>">
+                                                    Edit
+                                                </button>
+                                                <input type="hidden" name="idbarangygmaudiapus" value="<?=$idb;?>"> 
+                                                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#delete<?=$idb;?>">
+                                                    Delete 
+                                                </button>
+                                                </td>                                           
                                             </tr> 
-                                            <?php
-                                            };
-                                            ?>
 
-                                        </tbody>
-                                    </table>
+                                            <!-- Edit modal -->
+                                            <div class="modal fade" id="edit<?=$idb;?>">
+                                            <div class="modal-dialog">
+                                            <div class="modal-content">
+                                            <div class="modal-header">
+                                            <h4 class="modal-title">Edit Barang</h4>
+                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                        </div>
+                                        <form method ="post">
+                                            <div class="modal-body">
+                                               
+                                                <input type="text" name="keterangan" value="<?=$keterangan;?>" class="form-control" required>
+                                                <br>
+                                                <input type="number" name="qty" value="<?=$qty;?>" class="form-control" required>                                                
+                                                <br>
+                                                <input type="hidden" name="idb" value="<?=$idb;?>">
+                                                <input type="hidden" name="idm" value="<?=$idm;?>">
+                                                <button type="submit" class="btn btn-primary" name="updatebarangmasuk">Submit</button>
+                                            </div>
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
+                        </div>          
+
+                                        <!-- Delete modal -->
+                                        <div class="modal fade" id="delete<?=$idb;?>">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h4 class="modal-title">Hapus Barang</h4>
+                                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                            </div>
+                                            <form method ="post">
+                                            <div class="modal-body">
+                                                    Apakah anda yakin ingin menghapus <?=$namabarang;?>?
+                                                    <input type="hidden" name="idb" value="<?=$idb;?>">
+                                                    <input type="hidden" name="kty" value="<?=$qty;?>">
+                                                    <input type="hidden" name="idm" value="<?=$idm;?>">
+                                                    <br>
+                                                    <br>
+                                                    <button type="submit" class="btn btn-danger" name="hapusbarangmasuk">Hapus</button>
+                                                    </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                     </div>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
-                </main>
-                <footer class="py-4 bg-light mt-auto">
-                    <div class="container-fluid">
-                        <div class="d-flex align-items-center justify-content-between small">
-                            <div class="text-muted">Copyright &copy; Your Website 2020</div>
-                            <div>
-                                <a href="#">Privacy Policy</a>
-                                &middot;
-                                <a href="#">Terms &amp; Conditions</a>
-                            </div>
-                        </div>
+                </div>
+            </>
+        </main>
+        <footer class="py-4 bg-light mt-auto">
+            <div class="container-fluid">
+                <div class="d-flex align-items-center justify-content-between small">
+                    <div class="text-muted">Copyright &copy; Your Website 2020</div>
+                    <div>
+                        <a href="#">Privacy Policy</a>
+                        &middot;
+                        <a href="#">Terms &amp; Conditions</a>
                     </div>
-                </footer>
+                </div>
+             </div>
+        </footer>
+    </div>
+</div>
+
+ <!-- Modal Tambah Barang Masuk -->
+ <div class="modal fade" id="myModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Tambah Barang Masuk</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <form method="post">
+                        <div class="modal-body">
+                            <select name="barangnya" class="form-control">
+                                <?php
+                                    $ambilsemuadatanya = mysqli_query($conn,"SELECT * FROM stock");
+                                    while($fetcharray = mysqli_fetch_array($ambilsemuadatanya)){
+                                        $namabarangnya = $fetcharray['namabarang'];
+                                        $idbarangnya = $fetcharray['idbarang'];
+                                ?>
+                                <option value="<?=$idbarangnya;?>"><?=$namabarangnya;?></option>
+                                <?php } ?>
+                            </select>
+                            <br>
+                            <input type="number" name="qty" class="form-control" placeholder="Quantity" required>
+                            <br>
+                            <input type="text" name="penerima" class="form-control" placeholder="Penerima" required>
+                            <br>
+                            <button type="submit" class="btn btn-primary" name="barangmasuk">Submit</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
+        
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
         <script src="js/scripts.js"></script>
@@ -120,44 +209,3 @@ require 'cek.php';
         <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js" crossorigin="anonymous"></script>
         <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js" crossorigin="anonymous"></script>
         <script src="assets/demo/datatables-demo.js"></script>
-    </body>
-
-    <div class="modal fade" id="myModal">
-        <div class="modal-dialog">
-        <div class="modal-content">
-      
-            <div class="modal-header">
-            <h4 class="modal-title">Tambah Barang Masuk</h4>
-            <button type="button" class="close" data-dismiss="modal">&times;</button>
-            </div>
-            
-            <form method ="post">
-            <div class="modal-body">
-            <select name = "barangnya" class= "form-control">
-                <?php
-                    $ambilsemuadatanya = mysqli_query($conn,"select * from stock");
-                    while($fetcharray = mysqli_fetch_array($ambilsemuadatanya)){
-                        $namabarangnya = $fetcharray['namabarang'];
-                        $idbarangnya = $fetcharray['idbarang'];
-                ?>
-
-                <option value="<?=$idbarangnya;?>"><?=$namabarangnya;?></option>
-                <?php      
-
-                    }
-
-                ?>
-            </select>
-            <br>
-            <input type="number" name="qty" class="form-control" placeholder="Quantity" required>
-            <br>
-            <input type="text" name="penerima" class="form-control" placeholder="Penerima" required>
-            <br>
-            <button type="submit" class="btn btn-primary" name="barangmasuk">Submit</button>
-            </div>
-            </form>
-        
-      </div>
-    </div>
-  </div>
-</html>
