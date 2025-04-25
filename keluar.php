@@ -115,8 +115,8 @@ require 'cek.php';
                                                 <input type="number" name="qty" value="<?=$qty;?>" class="form-control" required>                                                
                                                 <br>
                                                 <input type="hidden" name="idb" value="<?=$idb;?>">
-                                                <input type="hidden" name="idk" value="<?=$idm;?>">
-                                                <button type="submit" class="btn btn-primary" name="updatebarangmasuk">Submit</button>
+                                                <input type="hidden" name="idk" value="<?=$idk;?>">
+                                                <button type="submit" class="btn btn-primary" name="updatebarangkeluar">Submit</button>
                                             </div>
                                         </form>
                                     </div>
@@ -140,7 +140,7 @@ require 'cek.php';
                                                     <input type="hidden" name="idk" value="<?=$idk;?>">
                                                     <br>
                                                     <br>
-                                                    <button type="submit" class="btn btn-danger" name="hapusbarangmasuk">Hapus</button>
+                                                    <button type="submit" class="btn btn-danger" name="hapusbarangkeluar">Hapus</button>
                                                     </div>
                                                     </form>
                                                 </div>

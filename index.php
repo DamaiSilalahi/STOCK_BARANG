@@ -64,7 +64,7 @@ require 'cek.php';
                                             <tr>
                                                 <th>Tanggal</th>
                                                 <th>Nama Barang</th>
-                                                <th>Jumlah</th>
+                                                <th>Deskripsi</th>
                                                 <th>Stock</th>   
                                                 <th>Aksi</th>                                        
                                             </tr>
@@ -91,7 +91,7 @@ require 'cek.php';
                                                 <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#edit<?=$idb;?>">
                                                     Edit
                                                 </button>
-                                                <input type="hidden"name="idbarangygmaudiapus" value="<?=$idb;?>"> 
+                                                <!-- <input type="hidden" name="idbarangygmaudihapus" value="<?=$idb;?>">  -->
                                                 <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#delete<?=$idb;?>">
                                                     Delete 
                                                 </button>
@@ -127,7 +127,7 @@ require 'cek.php';
                                             <div class="modal-dialog">
                                             <div class="modal-content">
                                             <div class="modal-header">
-                                            <h4 class="modal-title">Hapus Barang</h4>
+                                            <h4 class="modal-title">Hapus Barang?</h4>
                                             <button type="button" class="close" data-dismiss="modal">&times;</button>
                                             </div>
                                                 
@@ -137,8 +137,8 @@ require 'cek.php';
                                                     <input type="hidden" name="idb" value="<?=$idb;?>">
                                                     <br>
                                                     <br>
-                                                    <input type="text" name="deskripsi" value="<?=$deskripsi;?>" class="form-control" required>
-                                                    <br>
+                                                    <!-- <input type="text" name="deskripsi" value="<?=$deskripsi;?>" class="form-control" required>
+                                                    <br> -->
                                                     <button type="submit" class="btn btn-danger" name="hapusbarang">Hapus</button>
                                                     </div>
                                                     </form>
@@ -183,7 +183,26 @@ require 'cek.php';
         <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js" crossorigin="anonymous"></script>
         <script src="assets/demo/datatables-demo.js"></script>
     </body>
-        
+    <div class="modal fade" id="myModal">
+        <div class="modal-dialog">
+        <div class="modal-content">
+      
+            <div class="modal-header">
+            <h4 class="modal-title">Tambah Barang</h4>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            
+            <form method ="post">
+            <div class="modal-body">
+            <input type="text" name="namabarang" placeholder="Nama Barang" class="form-control" required>
+            <br>
+            <input type="text" name="deskripsi" placeholder="Deskripsi Barang" class="form-control" required>
+            <br>
+            <input type="number" name="stock" class="form-control" placeholder="Stock" required>
+            <br>
+            <button type="submit" class="btn btn-primary" name="addnewbarang">Submit</button>
+            </div>
+            </form>
       </div>
     </div>
   </div>
