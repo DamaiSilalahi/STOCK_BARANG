@@ -1,5 +1,7 @@
 <?php
-session_start();
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
 // membuat koneksi ke database
 $conn = mysqli_connect("localhost","root","","stockbarang");
 
@@ -55,7 +57,7 @@ if(isset($_POST['addbarangkeluar'])){
 
     $addtokeluar = mysqli_query($conn,"insert into keluar (idbarang, penerima, qty) values('$barangnya', '$penerima', '$qty')");
     $updatestockmasuk = mysqli_query($conn,"update stock set stock='$tambahkanstocksekarangdenganquantity' where idbarang='$barangnya'");
-    if($addtokeluark&&$updatestockmasuk){
+    if($addtokeluar&&$updatestockmasuk){
         header('location:keluar.php');
     } else{
         echo 'Gagal';
