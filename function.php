@@ -53,6 +53,9 @@ if(isset($_POST['addbarangkeluar'])){
     $ambildatanya = mysqli_fetch_array($cekstocksekarang);
 
     $stocksekarang = $ambildatanya['stock'];
+
+    if($stocksekarang >= $qty){
+        //kalau baragnya cukup
     $tambahkanstocksekarangdenganquantity = $stocksekarang -$qty;
 
     $addtokeluar = mysqli_query($conn,"insert into keluar (idbarang, penerima, qty) values('$barangnya', '$penerima', '$qty')");
@@ -63,8 +66,16 @@ if(isset($_POST['addbarangkeluar'])){
         echo 'Gagal';
         header('location:keluar.php');
     }
-};
-
+}else{
+    //kalau barangnya ga cukup
+    echo '
+    <script>
+        alert("Stock saat ini tidak mencukupi");
+        window.location.href="keluar.php";
+    </script>
+    ';
+}
+}
 
 
 //update info barang
