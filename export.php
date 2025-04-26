@@ -30,7 +30,7 @@ require 'cek.php';
                                                 <th>Stock</th>                                        
                                             </tr>
                                         </thead>                   
-                                        <>
+                                        
 
                                             <?php
                                             $ambilsemuadatastock = mysqli_query($conn,"select * from stock");
