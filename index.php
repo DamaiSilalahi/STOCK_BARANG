@@ -17,6 +17,15 @@ require 'cek.php';
         <link href="css/styles.css" rel="stylesheet" />
         <link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet" crossorigin="anonymous" />
         <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/js/all.min.js" crossorigin="anonymous"></script>
+        <style>
+            .zoomable{
+                width :100px;
+            }
+            .zoomable:hover{
+                transform: scale(2.5);
+                transition: 0.3s ease;
+            }
+        </style>
     </head>
     <body class="sb-nav-fixed">
         <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
@@ -86,6 +95,7 @@ require 'cek.php';
                                         <thead>
                                             <tr>
                                                 <th>Tanggal</th>
+                                                <th>Gambar</th>
                                                 <th>Nama Barang</th>
                                                 <th>Deskripsi</th>
                                                 <th>Stock</th>   
@@ -103,10 +113,21 @@ require 'cek.php';
                                                 $stock = $data['stock'];
                                                 $idb = $data['idbarang'];
 
+                                                //cek ada gambar atau tidak
+                                                $gambar = $data['image']; //ambil gambar
+                                                if($gambar==null){
+                                                    //jika tidak ada gambar
+                                                    $img = 'No Photo';
+                                                } else {
+                                                    //jika ada gambar
+                                                    $img ='<img src="images/'.$gambar.'" class="zoomable">';
+                                                }
+
                                             ?>
 
                                             <tr>
                                                 <td><?=$i++;?></td>
+                                                <td><?=$img;?></td>
                                                 <td><?=$namabarang;?></td>
                                                 <td><?=$deskripsi;?></td>
                                                 <td><?=$stock;?></td> 
@@ -130,11 +151,13 @@ require 'cek.php';
                                             <button type="button" class="close" data-dismiss="modal">&times;</button>
                                         </div>
                                                   
-                                                    <form method ="post">
+                                                    <form method ="post" enctype="multipart/form-data">
                                                     <div class="modal-body">
                                                     <input type="text" name="namabarang" value="<?=$namabarang;?>" class="form-control" required>
                                                     <br>
                                                     <input type="text" name="deskripsi" value="<?=$deskripsi;?>" class="form-control" required>
+                                                    <br>
+                                                    <input type="file" name="file" class="form-control">
                                                     <br>
                                                     <input type="hidden" name="idb" value="<?=$idb;?>">
                                                     <button type="submit" class="btn btn-primary" name="updatebarang">Submit</button>
@@ -215,13 +238,15 @@ require 'cek.php';
             <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
             
-            <form method ="post">
+            <form method ="post" enctype="multipart/form-data">
             <div class="modal-body">
             <input type="text" name="namabarang" placeholder="Nama Barang" class="form-control" required>
             <br>
             <input type="text" name="deskripsi" placeholder="Deskripsi Barang" class="form-control" required>
             <br>
             <input type="number" name="stock" class="form-control" placeholder="Stock" required>
+            <br>
+            <input type="file" name="file" class="form-control">
             <br>
             <button type="submit" class="btn btn-primary" name="addnewbarang">Submit</button>
             </div>
