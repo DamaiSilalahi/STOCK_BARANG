@@ -25,6 +25,11 @@ require 'cek.php';
                 transform: scale(2.5);
                 transition: 0.3s ease;
             }
+
+            a{
+                text-decoration: none;
+                color: black;
+            }
         </style>
     </head>
     <body class="sb-nav-fixed">
@@ -94,7 +99,7 @@ require 'cek.php';
                                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                         <thead>
                                             <tr>
-                                                <th>Tanggal</th>
+                                                <th>No</th>
                                                 <th>Gambar</th>
                                                 <th>Nama Barang</th>
                                                 <th>Deskripsi</th>
@@ -128,7 +133,7 @@ require 'cek.php';
                                             <tr>
                                                 <td><?=$i++;?></td>
                                                 <td><?=$img;?></td>
-                                                <td><?=$namabarang;?></td>
+                                                <td><strong><a href="detail.php?id=<?=$idb;?>"><?=$namabarang;?></a></strong></td>
                                                 <td><?=$deskripsi;?></td>
                                                 <td><?=$stock;?></td> 
                                                 <td>
