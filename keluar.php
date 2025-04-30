@@ -101,13 +101,13 @@ require 'cek.php';
                                                 $selesai = $_POST['tgl_selesai'];
     
                                                 if($mulai!=null || $selesai!=null){
-                                                    $ambilsemuadatastock = mysqli_query($conn,"select * from keluar k, stock s where s.idbarang = k.idbarang and tanggal BETWEEN '$mulai' and DATE_ADD('$selesai', INTERVAL 1 DAY)");
+                                                    $ambilsemuadatastock = mysqli_query($conn,"select * from keluar k, stock s, login l where s.idbarang = k.idbarang and k.iduser=l.iduser and tanggal BETWEEN '$mulai' and DATE_ADD('$selesai', INTERVAL 1 DAY) order by idkeluar DESC");
                                                 } else {
-                                                    $ambilsemuadatastock = mysqli_query($conn,"select * from keluar k, stock s where s.idbarang = k.idbarang");
+                                                    $ambilsemuadatastock = mysqli_query($conn,"select * from keluar k, stock s, login l where s.idbarang = k.idbarang and k.iduser=l.iduser order by idkeluar DESC");
     
                                                 }
                                             } else {
-                                                $ambilsemuadatastock = mysqli_query($conn,"select * from keluar k, stock s where s.idbarang = k.idbarang");
+                                                $ambilsemuadatastock = mysqli_query($conn,"select * from keluar k, stock s, login l where s.idbarang = k.idbarang and k.iduser=l.iduser order by idkeluar DESC");
                                             }
 
                                             while($data=mysqli_fetch_array($ambilsemuadatastock)){
