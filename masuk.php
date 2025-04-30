@@ -17,6 +17,15 @@ require 'cek.php';
         <link href="css/styles.css" rel="stylesheet" />
         <link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet" crossorigin="anonymous" />
         <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/js/all.min.js" crossorigin="anonymous"></script>
+        <style>
+            .zoomable{
+                width :100px;
+            }
+            .zoomable:hover{
+                transform: scale(2.5);
+                transition: 0.3s ease;
+            }
+        </style>
     </head>
     <body class="sb-nav-fixed">
         <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
@@ -39,6 +48,10 @@ require 'cek.php';
                             <a class="nav-link" href="keluar.php">
                                 <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                                 Barang Keluar
+                            </a>
+                            <a class="nav-link" href="admin.php">
+                                <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                                Kelola Admin
                             </a>
                             <a class="nav-link" href="logout.php">
                                 Logout
@@ -73,6 +86,7 @@ require 'cek.php';
                                         <thead>
                                             <tr>
                                                 <th>Tanggal</th>
+                                                <th>Gambar</th>
                                                 <th>Nama Barang</th>
                                                 <th>Jumlah</th>
                                                 <th>keterangan</th>   
@@ -87,13 +101,13 @@ require 'cek.php';
                                             $selesai = $_POST['tgl_selesai'];
 
                                             if($mulai!=null || $selesai!=null){
-                                                $ambilsemuadatastock = mysqli_query($conn,"select * from masuk m, stock s, login l where s.idbarang = m.idbarang and m.iduser=l.iduser and tanggal BETWEEN '$mulai' and DATE_ADD('$selesai', INTERVAL 1 DAY) order by idmasuk DESC");
+                                                $ambilsemuadatastock = mysqli_query($conn,"select * from masuk m, stock s where s.idbarang = m.idbarang and tanggal BETWEEN '$mulai' and DATE_ADD('$selesai', INTERVAL 1 DAY)");
                                             } else {
-                                                $ambilsemuadatastock = mysqli_query($conn,"select * from masuk m, stock s, login l where s.idbarang = m.idbarang and m.iduser=l.iduser order by idmasuk DESC");
+                                                $ambilsemuadatastock = mysqli_query($conn,"select * from masuk m, stock s where s.idbarang = m.idbarang");
 
                                             }
                                         } else {
-                                            $ambilsemuadatastock = mysqli_query($conn,"select * from masuk m, stock s, login l where s.idbarang = m.idbarang and m.iduser=l.iduser order by idmasuk DESC");
+                                            $ambilsemuadatastock = mysqli_query($conn,"select * from masuk m, stock s where s.idbarang = m.idbarang");
                                         }
 
                                             while($data=mysqli_fetch_array($ambilsemuadatastock)){
@@ -103,9 +117,20 @@ require 'cek.php';
                                                 $namabarang = $data['namabarang'];
                                                 $qty = $data['qty'];
                                                 $keterangan = $data['keterangan'];
+
+                                                //cek ada gambar atau tidak
+                                                 $gambar = $data['image']; //ambil gambar
+                                                 if($gambar==null){
+                                                     //jika tidak ada gambar
+                                                     $img = 'No Photo';
+                                                 } else {
+                                                     //jika ada gambar
+                                                     $img ='<img src="images/'.$gambar.'" class="zoomable">';
+                                                 }
                                         ?>
                                             <tr>
                                                 <td><?=$tanggal;?></td>
+                                                <td><?=$img;?></td>
                                                 <td><?=$namabarang;?></td>
                                                 <td><?=$qty;?></td>
                                                 <td><?=$keterangan;?></td>  
