@@ -354,4 +354,87 @@ if(isset($_POST['hapusadmin'])){
         header('location:admin.php');
     }
 }
+
+// meminjam barang
+if(isset($_POST['pinjam'])) {
+    $idbarang = $_POST['barangnya']; 
+    $qty = $_POST['qty']; 
+    $penerima = $_POST['penerima'];
+
+    // ambil stock sekarang
+    $stok_saat_ini = mysqli_query($conn,"select * from stock where idbarang='$idbarang'");
+    $stok_nya = mysqli_fetch_array($stok_saat_ini);
+    $stok = $stok_nya['stock'];
+
+    // kurangin stocknya
+    $new_stock = $stok-$qty;
+
+    // mulai query insert
+    $insertpinjam = mysqli_query($conn,"INSERT INTO peminjaman (idbarang,qty,peminjam) VALUES ('$idbarang','$qty','$penerima')");
+
+    // mengurangi stock di table stock
+    $kurangistok = mysqli_query($conn,"update stock set stock='$new_stock' where idbarang='$idbarang'");
+
+
+    if($insertpinjam&&$kurangistok) {
+        // jka berhasil
+        echo'
+        <script>
+        alert("Berhasil");
+        window.location.href="peminjaman.php";
+        </script>
+        ';
+    } else {
+        // jika gagal
+        echo'
+        <script>
+        alert("Gagal");
+        window.location.href="peminjaman.php";
+        </script>
+        ';
+    }
+}
+
+// menyelesaikan pinjaman
+if(isset($_POST['barangkembali'])) {
+    $idpinjam = $_POST['idpinjam'];
+    $idbarang = $_POST['idbarang'];
+
+    // ekesekusi
+    $update_status = mysqli_query($conn,"update peminjaman set status='Kembali' where idpeminjaman='$idpinjam'");
+
+    // ambil stock sekarang
+    $stok_saat_ini = mysqli_query($conn,"select * from stock where idbarang='$idbarang'");
+    $stok_nya = mysqli_fetch_array($stok_saat_ini);
+    $stok = $stok_nya['stock'];
+
+    // ambil qty dari idpinjam sekarang
+    $stok_saat_ini1 = mysqli_query($conn,"select * from peminjaman where idpeminjaman='$idpinjam'");
+    $stok_nya1 = mysqli_fetch_array($stok_saat_ini1);
+    $stok1 = $stok_nya1['qty'];
+
+    // kurangin stocknya
+    $new_stock = $stok1+$stok;
+
+    // kembalikan stocknya
+    $kembalikan_stock = mysqli_query($conn,"update stock set stock='$new_stock' where idbarang='$idbarang'");
+
+    if($update_status&&$kembalikan_stock) {
+        // jka berhasil
+        echo'
+        <script>
+        alert("Berhasil");
+        window.location.href="peminjaman.php";
+        </script>
+        ';
+    } else {
+        // jika gagal
+        echo'
+        <script>
+        alert("Gagal");
+        window.location.href="peminjaman.php";
+        </script>
+        ';
+    }
+}
 ?>
