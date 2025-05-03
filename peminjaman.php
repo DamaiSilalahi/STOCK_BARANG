@@ -3,6 +3,19 @@
 require 'function.php';
 require 'cek.php';
 
+// get data
+// ambil data total
+$get1 = mysqli_query($conn, "select * from peminjaman");
+$count1 = mysqli_num_rows($get1);
+
+// ambil data peminjaman yang statusnya dipinjam
+$get2 = mysqli_query($conn, "select * from peminjaman where status='Dipinjam'");
+$count2 = mysqli_num_rows($get2);
+
+// ambil data peminjaman yang statusnya kembali
+$get3 = mysqli_query($conn, "select * from peminjaman where status='Kembali'");
+$count3 = mysqli_num_rows($get3);
+
 ?>
 
 <!DOCTYPE html>
@@ -74,6 +87,18 @@ require 'cek.php';
                                 Tambah Data
                             </button>
                             <br>
+                            <div class="row mt-4">
+                                <div class="col">
+                                    <div class="card bg-info text-white p-3"><h3>Total Data: <?=$count1;?></h3></div>
+                                </div>
+                                <div class="col">
+                                    <div class="card bg-danger text-white p-3"><h3>Total Dipinjam: <?=$count2;?></h3></div>
+                                </div>
+                                <div class="col">
+                                    <div class="card bg-success text-white p-3"><h3>Total Kembali: <?=$count3;?></h3></div>
+                                </div>
+                                
+                            </div>
                             <div class="row mt-4">
                                     <div class="col">
                                         <form method="post" class="form-inline">
